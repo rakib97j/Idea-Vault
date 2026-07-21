@@ -1,9 +1,15 @@
-import React from 'react';
+import React from "react";
 
-const SingUpPage = () => {
-    return (
-      <div className="lg:max-w-7xl px-4  mx-auto">this is signUP Page</div>
-    );
+
+export const metadata = {
+  title: "Create Account | Idea Vault",
+  description: "Join Idea Vault to share, store, and discover innovative ideas.",
 };
 
-export default SingUpPage;
+export default function SignUpPage() {
+  return (
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
+      
+    </div>
+  );
+}

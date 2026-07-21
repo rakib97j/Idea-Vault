@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { Toaster } from "react-hot-toast";
 
 export function Providers({ children }) {
   return (
@@ -10,7 +11,9 @@ export function Providers({ children }) {
       enableSystem
       disableTransitionOnChange
     >
+      <Toaster position="top-right" />
       {children}
     </NextThemesProvider>
   );
 }
+
