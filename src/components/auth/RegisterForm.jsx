@@ -12,6 +12,8 @@ import {
   UserPlus,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -32,18 +34,34 @@ export default function RegisterForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // better auth
 
     const form = new FormData(e.currentTarget);
     const user = Object.fromEntries(form.entries());
+   
 
-    console.log("Form Submitted User Data:", user);
+    const {data ,error} = await authClient.signUp.email({
+      email : user.email ,
+      image : user.image ,
+      name : user.name ,
+      password :user.password ,
 
-    if (!user.name || !user.email || !user.password) {
-      toast.error("Please fill in all required fields.");
-      return;
+    })
+    console.log({data , error});
+
+
+    if(data){
+      redirect('/')
     }
+    if(error){
+      toast.error("Please fill in all required fields.");
+    }
+   
+
+   
 
     const { password } = user;
     const minLength = password.length >= 6;
