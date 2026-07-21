@@ -1,8 +1,10 @@
 
 export default function Home() {
   return (
-    <div >
-      <h1>Idea Vault</h1>
+    <div className="">
+      <div className="lg:max-w-7xl px-4  mx-auto">
+        <h1>hey this is home Page</h1>
+      </div> 
     </div>
   );
 }
