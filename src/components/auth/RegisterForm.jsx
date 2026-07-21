@@ -2,33 +2,65 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import {
+  User,
+  Mail,
+  Image as ImageIcon,
+  Lock,
+  Eye,
+  EyeOff,
+  UserPlus,
+} from "lucide-react";
 import toast from "react-hot-toast";
 
-export default function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function RegisterForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    photoUrl: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [photoError, setPhotoError] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (field === "photoUrl") {
+      setPhotoError(false);
+    }
+  };
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    
     const form = new FormData(e.currentTarget);
     const user = Object.fromEntries(form.entries());
-    console.log("Logged in User Data:", user);
 
-    if (!user.email || !user.password) {
-      toast.error("Please fill in all fields");
+    console.log("Form Submitted User Data:", user);
+
+    if (!user.name || !user.email || !user.password) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    const { password } = user;
+    const minLength = password.length >= 6;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+
+    if (!minLength || !hasUppercase || !hasLowercase) {
+      toast.error(
+        "Password must be at least 6 characters long and include both uppercase and lowercase letters.",
+      );
       return;
     }
 
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Successfully logged in!");
+      toast.success("Account created successfully! Welcome aboard.");
     }, 1200);
   };
 
@@ -45,72 +77,130 @@ export default function LoginForm() {
       {/* Header */}
       <div className="text-center mb-6">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-          Welcome Back !
+          Create an Account
         </h1>
         <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
-          Enter your credentials to access your account
+          Fill in your details to get started with Idea Vault
         </p>
       </div>
 
-      {/* Form Container */}
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Email Input Field */}
+        {/* Name Field */}
         <div className="space-y-1.5">
           <label
-            htmlFor="login-email"
+            htmlFor="reg-name"
             className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300"
           >
-            Email
+            Full Name
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-cyan-500 transition-colors">
+              <User className="w-4 h-4" />
+            </div>
+            <input
+              id="reg-name"
+              name="name" 
+              type="text"
+              required
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+              placeholder="Jane Doe"
+              className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all shadow-sm"
+            />
+          </div>
+        </div>
+
+        {/* Email Field */}
+        <div className="space-y-1.5">
+          <label
+            htmlFor="reg-email"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300"
+          >
+            Email Address
           </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-cyan-500 transition-colors">
               <Mail className="w-4 h-4" />
             </div>
             <input
-              id="login-email"
-              name="email"
+              id="reg-email"
+              name="email" 
               type="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
+              placeholder="jane@example.com"
               className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all shadow-sm"
             />
           </div>
         </div>
 
-        {/* Password Input Field */}
+        {/* Photo URL Field */}
         <div className="space-y-1.5">
-          <div className="flex justify-between items-center">
-            <label
-              htmlFor="login-password"
-              className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300"
-            >
-              Password
-            </label>
-            <Link
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                toast("Forgot password link clicked");
-              }}
-              className="text-xs font-medium text-cyan-600 dark:text-cyan-400 hover:underline hover:text-cyan-500 transition-colors"
-            >
-              Forgot Password?
-            </Link>
+          <label
+            htmlFor="reg-photourl"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300"
+          >
+            Photo URL
+          </label>
+          <div className="flex gap-2 items-center">
+            <div className="relative flex-1 group">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-cyan-500 transition-colors">
+                <ImageIcon className="w-4 h-4" />
+              </div>
+              <input
+                id="reg-photourl"
+                name="photoUrl" 
+                type="url"
+                value={formData.photoUrl}
+                onChange={(e) => handleChange("photoUrl", e.target.value)}
+                placeholder="https://example.com/avatar.jpg"
+                className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all shadow-sm"
+              />
+            </div>
+
+            {/* Live Avatar Preview */}
+            <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-inner">
+              {formData.photoUrl && !photoError ? (
+                
+                <img
+                  src={formData.photoUrl}
+                  alt="Avatar Preview"
+                  onError={() => setPhotoError(true)}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User className="w-5 h-5 text-slate-400" />
+              )}
+            </div>
           </div>
+          {photoError && (
+            <p className="text-[11px] text-rose-500 pl-1">
+              Could not load image from provided URL
+            </p>
+          )}
+        </div>
+
+        {/* Password Field */}
+        <div className="space-y-1.5">
+          <label
+            htmlFor="reg-password"
+            className="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300"
+          >
+            Password
+          </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-cyan-500 transition-colors">
               <Lock className="w-4 h-4" />
             </div>
             <input
-              id="login-password"
+              id="reg-password"
               name="password" 
               type={showPassword ? "text" : "password"}
               required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
+              value={formData.password}
+              onChange={(e) => handleChange("password", e.target.value)}
+              placeholder="Create strong password"
               className="w-full pl-10 pr-11 py-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 rounded-2xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all shadow-sm"
             />
             <button
@@ -128,18 +218,18 @@ export default function LoginForm() {
           </div>
         </div>
 
-        {/* Submit Login Button */}
+        {/* Submit Register Button */}
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full mt-2 py-3.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 text-white font-semibold rounded-2xl shadow-lg shadow-cyan-500/25 active:scale-[0.99] disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 group"
+          className="w-full mt-3 py-3.5 px-4 bg-gradient-to-r from-cyan-500 via-blue-600 to-indigo-600 hover:from-cyan-400 hover:via-blue-500 hover:to-indigo-500 text-white font-semibold rounded-2xl shadow-lg shadow-cyan-500/25 active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 group"
         >
           {isLoading ? (
             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           ) : (
             <>
-              <span>Log In</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <UserPlus className="w-4 h-4" />
+              <span>Create Account</span>
             </>
           )}
         </button>
@@ -149,12 +239,12 @@ export default function LoginForm() {
       <div className="relative flex items-center my-6">
         <div className="flex-grow border-t border-slate-200 dark:border-slate-800" />
         <span className="flex-shrink mx-4 text-xs uppercase tracking-widest text-slate-400 font-medium">
-          or continue with
+          or sign up with
         </span>
         <div className="flex-grow border-t border-slate-200 dark:border-slate-800" />
       </div>
 
-      {/* Google Login Only */}
+      {/* Google Sign Up */}
       <div>
         <button
           type="button"
@@ -190,14 +280,14 @@ export default function LoginForm() {
         </button>
       </div>
 
-      {/* Link to Registration */}
+      {/* Link to Login */}
       <div className="pt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-        Don&apos;t have an account?{" "}
+        Already have an account?{" "}
         <Link
-          href="/sign-up"
+          href="/login"
           className="font-bold text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 hover:underline transition-colors ml-1 inline-flex items-center gap-0.5"
         >
-          Create Account
+          Log In
         </Link>
       </div>
     </div>

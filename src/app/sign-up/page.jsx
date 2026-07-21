@@ -1,5 +1,5 @@
-import React from "react";
 
+import RegisterForm from "@/components/auth/RegisterForm";
 
 export const metadata = {
   title: "Create Account | Idea Vault",
@@ -9,7 +9,7 @@ export const metadata = {
 export default function SignUpPage() {
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
-      
+      <RegisterForm />
     </div>
   );
 }
