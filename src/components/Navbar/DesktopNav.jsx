@@ -1,21 +1,18 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@heroui/react";
 import ThemeToggle from "./ThemeToggle";
 import UserProfileDropdown from "./UserProfileDropdown";
 import { PlusCircle } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
 
 export default function DesktopNav() {
   const pathname = usePathname();
   
-  // Set to `true` when user is logged in (shows Profile Dropdown),
-  // or `false` when logged out (shows Login/Register buttons).
-  // WHEN INTEGRATING BETTER AUTH / NEXTAUTH:
-  // Replace this state with your auth hook, e.g. const { session } = useSession(); const isLoggedIn = !!session;
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { data: session } = authClient.useSession();
+  const isLoggedIn = !!session;
 
   // Navigation Links
   const publicLinks = [
@@ -102,15 +99,6 @@ export default function DesktopNav() {
 
       {/* Right Side Actions */}
       <div className="flex items-center space-x-3 ml-auto">
-        {/* demo account */}
-        <Button
-          onClick={() => setIsLoggedIn(!isLoggedIn)}
-          title="Click to toggle Auth state demo"
-          className="text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded bg-cyan-500/10 text-cyan-500 hover:bg-cyan-500/20 transition-all border border-cyan-500/20 cursor-pointer"
-        >
-          {isLoggedIn ? "Logged In" : "Logged Out"}
-        </Button>
-
         <ThemeToggle />
 
         {/* profile login register btn */}

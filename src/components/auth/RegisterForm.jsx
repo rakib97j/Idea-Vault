@@ -50,7 +50,7 @@ export default function RegisterForm() {
       password :user.password ,
 
     })
-    console.log({data , error});
+    
 
 
     if(data){
@@ -168,7 +168,7 @@ export default function RegisterForm() {
               </div>
               <input
                 id="reg-photourl"
-                name="photoUrl" 
+                name="image" 
                 type="url"
                 value={formData.photoUrl}
                 onChange={(e) => handleChange("photoUrl", e.target.value)}

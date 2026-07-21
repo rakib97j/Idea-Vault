@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Avatar } from "@heroui/react";
 import {
   User,
@@ -11,17 +12,19 @@ import {
   LogOut,
   ChevronDown,
 } from "lucide-react";
-
-// Dummy User Data
-const DUMMY_USER = {
-  name: "Rakib Ahmed",
-  email: "rakib@ideavault.com",
-  avatar: "https://i.pravatar.cc/150?u=rakib",
-};
+import { authClient } from "@/lib/auth-client";
 
 export default function UserProfileDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const router = useRouter();
+
+  const { data: session } = authClient.useSession();
+ 
+  const user = session?.user;
+console.log(user);
+
+ 
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -36,6 +39,14 @@ export default function UserProfileDropdown() {
     };
   }, []);
 
+  const handleSignOut = async () => {
+    setIsOpen(false);
+    await authClient.signOut();
+    router.push("/");
+  };
+
+  if (!user) return null;
+
   return (
     <div className="relative" ref={dropdownRef}>
       {/* Trigger Button */}
@@ -47,14 +58,14 @@ export default function UserProfileDropdown() {
         className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border border-[var(--border)] bg-[var(--card)] hover:border-cyan-500/40 hover:bg-cyan-500/5 transition-all focus:outline-none cursor-pointer group shadow-xs"
       >
         <Avatar.Root className="w-8 h-8 rounded-full overflow-hidden border border-cyan-500/40 shadow-xs">
-          <Avatar.Image src={DUMMY_USER.avatar} alt={DUMMY_USER.name} />
+          <Avatar.Image src={user.image} alt={user.name} />
           <Avatar.Fallback className="bg-cyan-500 text-white font-semibold text-xs flex items-center justify-center w-full h-full">
-            {DUMMY_USER.name ? DUMMY_USER.name.charAt(0) : "U"}
+            {user.name ? user.name.charAt(0) : "U"}
           </Avatar.Fallback>
         </Avatar.Root>
 
         <span className="text-xs font-semibold text-[var(--foreground)] group-hover:text-cyan-500 transition-colors max-w-[100px] truncate hidden sm:inline-block">
-          {DUMMY_USER.name.split(" ")[0]}
+          {user.name ? user.name.split(" ")[0] : "User"}
         </span>
 
         <ChevronDown
@@ -70,10 +81,10 @@ export default function UserProfileDropdown() {
           {/* User Info top */}
           <div className="px-3 py-2.5 border-b border-[var(--border)] mb-1 bg-cyan-500/5 rounded-xl">
             <p className="text-sm font-bold text-[var(--foreground)] truncate">
-              {DUMMY_USER.name}
+              {user.name}
             </p>
             <p className="text-xs text-[var(--secondary)] truncate font-medium">
-              {DUMMY_USER.email}
+              {user.email}
             </p>
           </div>
 
@@ -119,7 +130,7 @@ export default function UserProfileDropdown() {
 
             <button
               type="button"
-              onClick={() => setIsOpen(false)}
+              onClick={handleSignOut}
               className="w-full flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-xl text-rose-500 hover:bg-rose-500/10 transition-colors cursor-pointer text-left"
             >
               <LogOut className="w-4 h-4" />

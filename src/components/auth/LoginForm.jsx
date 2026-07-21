@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -18,7 +20,21 @@ export default function LoginForm() {
     
     const form = new FormData(e.currentTarget);
     const user = Object.fromEntries(form.entries());
-    console.log("Logged in User Data:", user);
+     const {data ,error} = await authClient.signIn.email({
+          email : user.email ,
+          password :user.password ,
+    
+        })
+       
+
+        
+    if (data) {
+      redirect("/");
+    }
+    if (error) {
+      toast.error("Please fill in all required fields.");
+    }
+   
 
     if (!user.email || !user.password) {
       toast.error("Please fill in all fields");

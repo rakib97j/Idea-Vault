@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Drawer, Button, Separator, Avatar } from "@heroui/react";
 import NavLogo from "./NavLogo";
 import {
@@ -18,21 +18,25 @@ import {
   UserPlus,
   LogOut,
 } from "lucide-react";
-
-// Dummy user data
-const DUMMY_USER = {
-  name: "Rakib ",
-  email: "rakib@gmail.com",
-  avatar: "https://i.pravatar.cc/150?u=rakib",
-};
+import { authClient } from "@/lib/auth-client";
 
 export default function MobileDrawer() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: session } = authClient.useSession();
+  const isLoggedIn = !!session;
+  const user = session?.user;
 
   const handleLinkClick = () => {
     setIsOpen(false);
+  };
+
+  const handleSignOut = async () => {
+    setIsOpen(false);
+    await authClient.signOut();
+    router.push("/");
   };
 
   return (
@@ -75,35 +79,28 @@ export default function MobileDrawer() {
 
             {/* Navigation  */}
             <Drawer.Body className="flex-1 overflow-y-auto px-4 py-4 space-y-5">
-              {/* User Profile Info Card if log in user now it have dummy user  */}
-              {isLoggedIn && (
+              {/* User Profile Info Card if logged in */}
+              {isLoggedIn && user && (
                 <div className="flex items-center justify-between p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 mb-2">
                   <div className="flex items-center gap-3 min-w-0">
                     <Avatar.Root className="w-10 h-10 rounded-xl overflow-hidden border border-cyan-500/40 shrink-0">
                       <Avatar.Image
-                        src={DUMMY_USER.avatar}
-                        alt={DUMMY_USER.name}
+                        src={user.image}
+                        alt={user.name}
                       />
                       <Avatar.Fallback className="bg-cyan-500 text-white font-bold text-sm flex items-center justify-center w-full h-full">
-                        {DUMMY_USER.name ? DUMMY_USER.name.charAt(0) : "U"}
+                        {user.name ? user.name.charAt(0) : "U"}
                       </Avatar.Fallback>
                     </Avatar.Root>
                     <div className="flex flex-col min-w-0">
                       <p className="text-sm font-bold text-[var(--foreground)] truncate">
-                        {DUMMY_USER.name}
+                        {user.name}
                       </p>
                       <p className="text-xs text-[var(--secondary)] truncate">
-                        {DUMMY_USER.email}
+                        {user.email}
                       </p>
                     </div>
                   </div>
-                  <Button
-                    onClick={() => setIsLoggedIn(false)}
-                    title="Toggle auth state"
-                    className="text-[10px] font-semibold text-cyan-500 hover:underline shrink-0 cursor-pointer"
-                  >
-                    Toggle
-                  </Button>
                 </div>
               )}
 
@@ -206,10 +203,7 @@ export default function MobileDrawer() {
               {/* Dynamic Auth Section */}
               {isLoggedIn ? (
                 <Button
-                  onClick={() => {
-                    setIsLoggedIn(false);
-                    handleLinkClick();
-                  }}
+                  onClick={handleSignOut}
                   className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl font-medium text-sm text-rose-500 bg-rose-500/10 hover:bg-rose-500/20 transition-all cursor-pointer"
                 >
                   <LogOut className="w-4.5 h-4.5" />
@@ -221,12 +215,6 @@ export default function MobileDrawer() {
                     <span className="text-xs text-[var(--secondary)]">
                       Account
                     </span>
-                    <Button
-                      onClick={() => setIsLoggedIn(true)}
-                      className="text-[10px] font-semibold text-cyan-500 hover:underline cursor-pointer"
-                    >
-                      Toggle Logged In
-                    </Button>
                   </div>
 
                   <Link
