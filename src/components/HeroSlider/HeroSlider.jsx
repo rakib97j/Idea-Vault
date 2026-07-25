@@ -16,7 +16,7 @@ export default function HeroSlider() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="relative w-full bg-[var(--background)] overflow-hidden border-b border-[var(--border)]">
+    <section className=" relative w-full bg-[var(--background)] overflow-hidden border-b border-[var(--border)]">
      
       <div
         className="absolute inset-0 opacity-[0.06] dark:opacity-[0.12]"
