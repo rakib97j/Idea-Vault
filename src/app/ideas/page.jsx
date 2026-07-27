@@ -1,7 +1,39 @@
+import IdeaCard from "@/components/IdeaCard";
+import { getIdeaData } from "@/DataActions/idea";
+import React from "react";
 
+const IdeasPage = async () => {
+  const ideaData = await getIdeaData();
+//   console.log("ideaData", ideaData);
+  return (
+    <div className="lg:max-w-7xl px-4  mx-auto">
+        <div className="md:flex  justify-between items-center ">
+        <h1 className="text-4xl flex justify-center font-black underline underline-offset-8 decoration-2">
+          Explore Ideas 
+        </h1>
+        <div className="mt-6">
+          <React.Suspense
+            fallback={
+              <div className="w-52 h-10 bg-gray-200 animate-pulse rounded-md" />
+            }
+          >
+          </React.Suspense>
+        </div>
+      </div>
 
-const IdeasPage = () => {
-    return <div className="lg:max-w-7xl px-4  mx-auto">this is idea page</div>;
+      {/* card section */}
+        <div className="p-7 bg-primary/5 rounded-xl my-5 ">
+       
+          <div className="grid gap-4 md:grid-cols-2   lg:grid-cols-3 ">
+            {ideaData.map((idea) => (
+              <IdeaCard key={idea._id} idea={idea} />
+            ))}
+          </div>
+         
+      </div>
+        
+    </div>
+  )
 };
 
 export default IdeasPage;

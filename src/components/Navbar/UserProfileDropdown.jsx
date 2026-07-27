@@ -22,7 +22,7 @@ export default function UserProfileDropdown() {
   const { data: session } = authClient.useSession();
  
   const user = session?.user;
-console.log(user);
+
 
  
 
