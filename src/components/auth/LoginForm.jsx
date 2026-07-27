@@ -29,26 +29,26 @@ export default function LoginForm() {
 
         
     if (data) {
+      toast.success("Successfully logged in!");
       redirect("/");
     }
     if (error) {
       toast.error("Please fill in all required fields.");
     }
    
-
-    if (!user.email || !user.password) {
-      toast.error("Please fill in all fields");
-      return;
-    }
-
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Successfully logged in!");
     }, 1200);
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
+
+      await authClient.signIn.social({
+        provider: "google",
+      });
+
+
     setIsGoogleLoading(true);
     setTimeout(() => {
       setIsGoogleLoading(false);

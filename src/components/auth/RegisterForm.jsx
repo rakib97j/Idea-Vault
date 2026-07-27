@@ -14,6 +14,7 @@ import {
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -82,7 +83,13 @@ export default function RegisterForm() {
     }, 1200);
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
+
+    await authClient.signIn.social({
+    provider: "google",
+  });
+
+
     setIsGoogleLoading(true);
     setTimeout(() => {
       setIsGoogleLoading(false);
@@ -181,7 +188,7 @@ export default function RegisterForm() {
             <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-inner">
               {formData.photoUrl && !photoError ? (
                 
-                <img
+                <Image
                   src={formData.photoUrl}
                   alt="Avatar Preview"
                   onError={() => setPhotoError(true)}
