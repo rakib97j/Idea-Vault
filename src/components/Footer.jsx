@@ -30,7 +30,7 @@ const platformLinks = [
 ];
 
 const companyLinks = [
-  { label: "About Us", href: "#" },
+  { label: "About Us", href: "##" },
   { label: "How It Works", href: "#" },
   { label: "Community", href: "#" },
   { label: "Blog", href: "#" },
