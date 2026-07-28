@@ -58,7 +58,7 @@ export default function UserProfileDropdown() {
         className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full border border-[var(--border)] bg-[var(--card)] hover:border-cyan-500/40 hover:bg-cyan-500/5 transition-all focus:outline-none cursor-pointer group shadow-xs"
       >
         <Avatar.Root className="w-8 h-8 rounded-full overflow-hidden border border-cyan-500/40 shadow-xs">
-          <Avatar.Image src={user.image} alt={user.name} />
+          <Avatar.Image referrerPolicy="no-referrer" src={user.image} alt={user.name} />
           <Avatar.Fallback className="bg-cyan-500 text-white font-semibold text-xs flex items-center justify-center w-full h-full">
             {user.name ? user.name.charAt(0) : "U"}
           </Avatar.Fallback>
