@@ -9,3 +9,4 @@ export const getIdeaData = async () => {
 
   return data;
 };
+

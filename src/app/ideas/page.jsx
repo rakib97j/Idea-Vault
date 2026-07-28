@@ -9,7 +9,7 @@ const IdeasPage = async () => {
     <div className="lg:max-w-7xl px-4  mx-auto">
         <div className="md:flex  justify-between items-center ">
         <h1 className="text-4xl flex justify-center font-black underline underline-offset-8 decoration-2">
-          Explore Ideas 
+          <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">Explore Ideas</span> 
         </h1>
         <div className="mt-6">
           <React.Suspense

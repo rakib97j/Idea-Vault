@@ -51,7 +51,7 @@ const IdeaCard = ({idea}) => {
       <CardFooter className="px-5 pb-5 flex flex-col items-start gap-3">
         
 
-        <Button className="w-full rounded bg-primary font-bold">
+        <Button className="w-full rounded bg-primary font-bold bg-gradient-to-r from-cyan-400 via-teal-400  text-white px-5 py-2 ">
           <Link href={`/ideas/${_id}`} className="w-full">
             View Details
           </Link>
