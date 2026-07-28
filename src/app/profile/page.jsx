@@ -1,4 +1,8 @@
 import React from 'react';
+export const metadata = {
+  title: "Idea-Vault || My Profile",
+  description: "Share and explore innovative ideas",
+};
 
 const ProfilePage = () => {
     return (

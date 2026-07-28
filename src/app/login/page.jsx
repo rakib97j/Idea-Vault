@@ -2,7 +2,7 @@ import React from "react";
 import LoginForm from "@/components/auth/LoginForm";
 
 export const metadata = {
-  title: "Log In | Idea Vault",
+  title: "Log In || Idea Vault",
   description: "Log in to your Idea Vault account to access your saved ideas and interactions.",
 };
 

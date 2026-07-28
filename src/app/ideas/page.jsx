@@ -2,6 +2,12 @@ import IdeaCard from "@/components/IdeaCard";
 import { getIdeaData } from "@/DataActions/idea";
 import React from "react";
 
+export const metadata = {
+  title: "Idea-Vault || Ideas",
+  description: "Share and explore innovative ideas",
+};
+
+
 const IdeasPage = async () => {
   const ideaData = await getIdeaData();
 //   console.log("ideaData", ideaData);

@@ -1,5 +1,9 @@
 import IdeaDetailPage from '@/components/IdeaDetailPage';
 import React from 'react';
+export const metadata = {
+  title: "Idea-Vault || Idea Details",
+  description: "Share and explore innovative ideas",
+};
 
 const IdeaDEtailsPage = async ({params}) => {
     const {id} = await params;

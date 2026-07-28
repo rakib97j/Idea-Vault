@@ -1,4 +1,8 @@
 import React from 'react';
+export const metadata = {
+  title: "Idea-Vault || My Inetractions",
+  description: "Share and explore innovative ideas",
+};
 
 const MyInteractionPage = () => {
     return (
