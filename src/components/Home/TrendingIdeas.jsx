@@ -11,7 +11,7 @@ const TrendingIdeas =async () => {
     return (
         <div className='max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-16'>
             {/* header section */}
-            <div className='text-center md:flex  space-y-3 items-center  justify-between '> 
+            <div className='text-center  md:flex  space-y-3 items-center  justify-between '> 
                 <h1 className='text-3xl sm:text-4xl md:text-5xl font-black '>Trending <span className='bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent'>Ideas</span></h1>
                 <Link href="/ideas" className=''>
                 <Button variant='outline'  className={'flex items-center justify-center hover:bg-cyan-500 rounded-lg'} >
