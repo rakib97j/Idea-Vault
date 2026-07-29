@@ -6,7 +6,7 @@ import Link from "next/link";
 const IdeaCard = ({idea}) => {
     const {_id,tags, category, title, budget,  shortDescription ,imageURL} =idea ;
     return (
-          <Card className="group overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-500">
+          <Card className="group overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-500 h-full flex flex-col">
       {/* IMAGE */}
       <div className="relative aspect-video rounded-lg overflow-hidden">
         <Image
@@ -23,7 +23,7 @@ const IdeaCard = ({idea}) => {
         </span>
       </div>
 
-      <CardContent className="p-3 space-y-3">
+      <CardContent className="p-3 space-y-3 flex-grow">
         <div className="flex items-center justify-between">
           <span className="text-xs flex gap-2  tracking-wider text-muted-foreground">
             <p className="bg-cyan-500 p-1 opacity-80 rounded">{tags?.[0]}</p>
