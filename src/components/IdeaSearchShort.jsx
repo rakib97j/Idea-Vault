@@ -34,14 +34,8 @@ const IdeaSearchShort = ({ initialIdeas = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [, startTransition] = useTransition();
 
-  // Filter ideas by title 
-  const filteredIdeas = initialIdeas.filter((idea) => {
-    const matchesSearch = (idea.title || "").toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory =
-      selectedCategory === "all" ||
-      (idea.category || "").toLowerCase() === selectedCategory.toLowerCase();
-    return matchesSearch && matchesCategory;
-  });
+  // Disabling client-side sorting/filtering functionality (backend will handle it)
+  const filteredIdeas = initialIdeas;
 
   const handleReset = () => {
     startTransition(() => {
@@ -172,7 +166,7 @@ const IdeaSearchShort = ({ initialIdeas = [] }) => {
               </div>
               <h3 className="text-xl font-bold text-[var(--foreground)]">No ideas found</h3>
               <p className="text-sm text-[var(--secondary)]">
-                We couldn't find any ideas under <span className="font-semibold text-cyan-400">{selectedCategory}</span> category matching <span className="font-semibold text-cyan-400">{searchQuery}</span>.
+                We could not find any ideas under <span className="font-semibold text-cyan-400">{selectedCategory}</span> category matching <span className="font-semibold text-cyan-400">{searchQuery}</span>.
               </p>
               <Button
                 onClick={handleReset}

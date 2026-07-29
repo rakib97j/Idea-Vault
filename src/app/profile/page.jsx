@@ -1,4 +1,6 @@
 import React from 'react';
+import ProfileClient from "@/components/profile/ProfileClient";
+
 export const metadata = {
   title: "Idea-Vault || My Profile",
   description: "Share and explore innovative ideas",
@@ -6,7 +8,7 @@ export const metadata = {
 
 const ProfilePage = () => {
     return (
-      <div className="lg:max-w-7xl px-4  mx-auto">this is Profile page</div>
+      <ProfileClient />
     );
 };
 

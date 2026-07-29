@@ -13,8 +13,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -28,6 +27,8 @@ export default function RegisterForm() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [photoError, setPhotoError] = useState(false);
 
+  const router = useRouter();
+
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
     if (field === "photoUrl") {
@@ -38,63 +39,57 @@ export default function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // better auth
-
-    const form = new FormData(e.currentTarget);
-    const user = Object.fromEntries(form.entries());
-   
-
-    const {data ,error} = await authClient.signUp.email({
-      email : user.email ,
-      image : user.image ,
-      name : user.name ,
-      password :user.password ,
-
-    })
-    
-
-
-    if(data){
-      redirect('/')
-    }
-    if(error){
-      toast.error("Please fill in all required fields.");
-    }
-   
-
-   
-
-    const { password } = user;
+    const { password } = formData;
     const minLength = password.length >= 6;
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
 
     if (!minLength || !hasUppercase || !hasLowercase) {
       toast.error(
-        "Password must be at least 6 characters long and include both uppercase and lowercase letters.",
+        "Password must be at least 6 characters long and include both uppercase and lowercase letters."
       );
       return;
     }
 
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const { data, error } = await authClient.signUp.email({
+        email: formData.email,
+        image: formData.photoUrl,
+        name: formData.name,
+        password: formData.password,
+      });
+
+      if (error) {
+        toast.error(error.message || "Failed to create account.");
+        setIsLoading(false);
+        return;
+      }
+
+      if (data) {
+        toast.success("Account created successfully! Welcome aboard.");
+        router.push("/");
+        router.refresh();
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred.");
+    } finally {
       setIsLoading(false);
-      toast.success("Account created successfully! Welcome aboard.");
-    }, 1200);
+    }
   };
 
   const handleGoogleLogin = async () => {
-
-    await authClient.signIn.social({
-    provider: "google",
-  });
-
-
     setIsGoogleLoading(true);
-    setTimeout(() => {
+    try {
+      await authClient.signIn.social({
+        provider: "google",
+        callbackURL: "/",
+      });
+    } catch (err) {
+      toast.error("Google authentication failed.");
       setIsGoogleLoading(false);
-      toast.success("Redirecting to Google Authentication...");
-    }, 1000);
+    }
   };
 
   return (
@@ -184,11 +179,10 @@ export default function RegisterForm() {
               />
             </div>
 
-            {/* Live Avatar Preview */}
-            <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-inner">
+            {/* Live Avatar Preview  */}
+            <div className="relative w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-inner">
               {formData.photoUrl && !photoError ? (
-                
-                <Image
+                <img
                   src={formData.photoUrl}
                   alt="Avatar Preview"
                   onError={() => setPhotoError(true)}

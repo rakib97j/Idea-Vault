@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
@@ -14,46 +14,50 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    
-    const form = new FormData(e.currentTarget);
-    const user = Object.fromEntries(form.entries());
-     const {data ,error} = await authClient.signIn.email({
-          email : user.email ,
-          password :user.password ,
-    
-        })
-       
-
-        
-    if (data) {
-      toast.success("Successfully logged in!");
-      redirect("/");
-    }
-    if (error) {
-      toast.error("Please fill in all required fields.");
-    }
-   
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const { data, error } = await authClient.signIn.email({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        toast.error(error.message || "Invalid email or password.");
+        setIsLoading(false);
+        return;
+      }
+
+      if (data) {
+        toast.success("Successfully logged in!");
+        router.push(callbackUrl);
+        router.refresh();
+      }
+    } catch (err) {
+      toast.error("An unexpected error occurred.");
+    } finally {
       setIsLoading(false);
-    }, 1200);
+    }
   };
 
   const handleGoogleLogin = async () => {
-
+    setIsGoogleLoading(true);
+    try {
       await authClient.signIn.social({
         provider: "google",
+        callbackURL: callbackUrl, 
       });
-
-
-    setIsGoogleLoading(true);
-    setTimeout(() => {
+    } catch (err) {
+      toast.error("Google authentication failed.");
       setIsGoogleLoading(false);
-      toast.success("Redirecting to Google Authentication...");
-    }, 1000);
+    }
   };
 
   return (
