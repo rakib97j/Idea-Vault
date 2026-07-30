@@ -18,6 +18,8 @@ import {
   Loader2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
+import React from "react";
 
 
 const categories = [
@@ -32,6 +34,9 @@ const categories = [
 
 const AddIdeasForm = () => {
   const router = useRouter();
+   const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -43,6 +48,9 @@ const AddIdeasForm = () => {
     targetAudience: "",
     problemStatement: "",
     proposedSolution: "",
+
+    
+
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -71,6 +79,8 @@ const AddIdeasForm = () => {
             .split(",")
             .map((tag) => tag.trim())
             .filter((tag) => tag),
+
+            userId: user?.id
         }),
       });
 
@@ -89,7 +99,7 @@ const AddIdeasForm = () => {
           problemStatement: "",
           proposedSolution: "",
         });
-        router.push("/ideas");
+        router.push("/my-ideas");
         
         
       } else {
@@ -112,7 +122,7 @@ const AddIdeasForm = () => {
             <span>Share Innovation</span>
           </div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[var(--foreground)]">
-            Submit Your Startup Idea
+           <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">Submit Your Startup Idea</span>
           </h1>
           <p className="text-sm sm:text-base text-[var(--secondary)] max-w-xl mx-auto">
             Transform your vision into reality. Provide key details below to feature your idea in the vault.

@@ -10,3 +10,10 @@ export const getIdeaData = async () => {
   return data;
 };
 
+
+export const getMyIdea = async (userId) =>{
+  const res = await fetch(`${process.env.API_URL}/ideas?userId=${userId}`)
+  const data = await res.json()
+  return data;
+}
+
