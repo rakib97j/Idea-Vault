@@ -7,7 +7,7 @@ export const metadata = {
 
 const IdeaDEtailsPage = async ({params}) => {
     const {id} = await params;
-    const res = await fetch (`${process.env.API_URL}/ideas/${id}`);
+    const res = await fetch (`${process.env.NEXT_PUBLIC_API_URL}/ideas/${id}`);
     const IdeaDetailsData = await res.json();
     
     return (

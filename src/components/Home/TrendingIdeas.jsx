@@ -5,7 +5,7 @@ import { Button } from '@heroui/react';
 import { MoveUpRight } from 'lucide-react';
 
 const TrendingIdeas =async () => {
-    const res = await fetch(`${process.env.API_URL}/trending`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trending`)
     const data = await res.json()
     
     return (

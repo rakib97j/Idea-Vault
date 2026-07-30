@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const IdeaCard = ({idea}) => {
-    const {_id,tags, category, title, budget,  shortDescription ,imageURL} =idea ;
+    const {_id,tags, category, title, budget, estimatedBudget, shortDescription, imageURL, imageUrl} = idea;
     return (
           <Card className="group overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-500 h-full flex flex-col">
       {/* IMAGE */}
       <div className="relative aspect-video rounded-lg overflow-hidden">
         <Image
-          src={imageURL || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800'}
+          src={imageUrl || imageURL || 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=800'}
           alt={title }
           width={400}
           height={400}
@@ -27,14 +27,14 @@ const IdeaCard = ({idea}) => {
         <div className="flex items-center justify-between">
           <span className="text-xs flex gap-2  tracking-wider text-muted-foreground">
             <p className="bg-cyan-500 p-1 opacity-80 rounded">{tags?.[0]}</p>
-            <p className="bg-cyan-500 p-1 opacity-80 rounded">{tags?.[1]}</p>
+            
             
           </span>
 
           <div className="flex items-center gap-1 text-yellow-500">
             
             <span className="text-sm font-medium text-foreground">
-              {budget}
+              {budget || estimatedBudget}
             </span>
           </div>
         </div>

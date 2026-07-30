@@ -44,7 +44,7 @@ const AddIdeasForm = () => {
     category: "",
     tags: "",
     imageUrl: "",
-    estimatedBudget: "",
+    budget: "",
     targetAudience: "",
     problemStatement: "",
     proposedSolution: "",
@@ -94,7 +94,7 @@ const AddIdeasForm = () => {
           category: "",
           tags: "",
           imageUrl: "",
-          estimatedBudget: "",
+          budget: "",
           targetAudience: "",
           problemStatement: "",
           proposedSolution: "",
@@ -308,8 +308,8 @@ const AddIdeasForm = () => {
               </label>
               <input
                 type="text"
-                name="estimatedBudget"
-                value={formData.estimatedBudget}
+                name="budget"
+                value={formData.budget}
                 onChange={handleChange}
                 placeholder="e.g., $5,000 - $15,000"
                 className="w-full px-4 py-2.5 border border-[var(--border)] rounded-xl bg-[var(--background)] text-[var(--foreground)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all"

@@ -2,7 +2,7 @@
 
 export const getIdeaData = async () => {
   const res = await fetch(
-    `${process.env.API_URL}/ideas`,
+    `${process.env.NEXT_PUBLIC_API_URL}/ideas`,
   );
 
   const data = await res.json();
@@ -12,7 +12,7 @@ export const getIdeaData = async () => {
 
 
 export const getMyIdea = async (userId) =>{
-  const res = await fetch(`${process.env.API_URL}/ideas?userId=${userId}`)
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas?userId=${userId}`)
   const data = await res.json()
   return data;
 }

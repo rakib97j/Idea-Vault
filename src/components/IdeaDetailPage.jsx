@@ -37,8 +37,8 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
     detailedDescription = "",
     category = "General",
     tags = [],
-    
     imageURL,
+    imageUrl,
     estimatedBudget,
     budget,
     targetAudience,
@@ -49,7 +49,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
 
   const mainId = _id || id;
   const bannerImage =
-   
+    imageUrl ||
     imageURL ||
     "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1200&auto=format&fit=crop&q=80";
   const displayBudget = estimatedBudget || budget || "Flexible / TBD";
@@ -88,13 +88,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
     },
   ]);
 
-  const handleEdit = () => {
-    toast("Edit feature clicked for this idea.", { icon: "✏️" });
-  };
-
-  const handleDelete = () => {
-    toast.error("Delete feature clicked for this idea.");
-  };
+ 
 
   const handleAddComment = (e) => {
     e.preventDefault();
@@ -124,23 +118,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
         </Link>
 
         {/* Edit and Delete buttons */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleEdit}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-600 dark:text-cyan-400 text-sm font-bold shadow-xs transition-all cursor-pointer"
-          >
-            <Pencil className="w-4 h-4 text-cyan-500" />
-            <span>Edit</span>
-          </button>
-
-          <button
-            onClick={handleDelete}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-xl border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 text-sm font-bold shadow-xs transition-all cursor-pointer"
-          >
-            <Trash2 className="w-4 h-4 text-red-500" />
-            <span>Delete</span>
-          </button>
-        </div>
+        
       </div>
 
       {/* Hero Banner Section */}
