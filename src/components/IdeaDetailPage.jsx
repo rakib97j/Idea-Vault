@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import toast from "react-hot-toast";
+
 import {
   ArrowLeft,
   Sparkles,
@@ -20,12 +20,13 @@ import {
   ShieldCheck,
   Zap,
   Send,
-  Pencil,
-  Trash2,
+  
   ThumbsUp,
   Share2,
   MessageSquare,
 } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 const IdeaDetailPage = ({ IdeaDetailsData }) => {
   
@@ -47,7 +48,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
     createdAt,
   } = IdeaDetailsData || {};
 
-  const mainId = _id || id;
+ 
   const bannerImage =
     imageUrl ||
     imageURL ||
@@ -69,40 +70,51 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
     ? tags.split(",").map((t) => t.trim()).filter(Boolean)
     : [];
 
-  // Discussion  dummy data 
-  const [commentInput, setCommentInput] = useState("");
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      name: "Alex Rivera",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
-      time: "2 hours ago",
-      text: "This is a fantastic concept! Have you considered integrating AI-driven insights for automated analytics?",
-    },
-    {
-      id: 2,
-      name: "Elena Rostova",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80",
-      time: "1 day ago",
-      text: "The problem statement resonates deeply. I would love to collaborate on the MVP development.",
-    },
-  ]);
+  // comment image ,id , email ,name 
+
+    const { data: session } = authClient.useSession();
+   const user = session?.user;
+
+  
+   
+
+  const [comments, setComments] = useState([]);
 
  
 
-  const handleAddComment = (e) => {
+  const handleAddComment = async (e) => {
     e.preventDefault();
-    if (!commentInput.trim()) return;
-    const newComment = {
-      id: Date.now(),
-      name: "You (Innovator)",
-      avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&auto=format&fit=crop&q=80",
-      time: "Just now",
-      text: commentInput,
-    };
-    setComments([newComment, ...comments]);
-    setCommentInput("");
-    toast.success("Comment posted!");
+    const form = e.target;
+    const commentText = form.comment.value;
+
+    const commentData = {
+      userId :user.id ,
+      detailsDataId : _id ,
+      detailedDataTitle :title ,
+      userImage : user.image ,
+      userName : user.name ,
+      comment: commentText,
+      date: new Date(),
+    }
+
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comment` ,{
+      method:"POST",
+      headers:{
+        'content-type' : 'application/json'
+      },
+      body: JSON.stringify(commentData)
+    })
+    
+    const data =  await res.json();
+
+
+    if(res.ok){
+       toast.success('Comment Added SuccesFully')
+      form.reset();
+      // window.location.reload()
+    }else{
+      toast.error('Something went wrong!')
+    }
   };
 
   return (
@@ -117,7 +129,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
           <span>Back to All Ideas</span>
         </Link>
 
-        {/* Edit and Delete buttons */}
+     
         
       </div>
 
@@ -294,7 +306,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
             <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
               <div className="flex items-center gap-2.5 text-lg font-extrabold">
                 <MessageSquare className="w-5 h-5 text-cyan-500" />
-                <span>Community Discussion ({comments.length})</span>
+                <span>Community Discussion (comment Length) </span>
               </div>
             </div>
 
@@ -302,8 +314,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
             <form onSubmit={handleAddComment} className="space-y-3">
               <textarea
                 rows={3}
-                value={commentInput}
-                onChange={(e) => setCommentInput(e.target.value)}
+                name="comment"
                 placeholder="Share your thoughts, suggestions, or potential collaboration ideas..."
                 className="w-full px-4 py-3 rounded-xl border border-[var(--border)] bg-[var(--background)] text-sm text-[var(--foreground)] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all resize-none"
               />
@@ -318,7 +329,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
               </div>
             </form>
 
-            {/* Comments List */}
+            {/* Comments List Get Api Put hare */}
             <div className="space-y-4 pt-2">
               {comments.map((c) => (
                 <div
