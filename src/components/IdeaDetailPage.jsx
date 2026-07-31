@@ -70,7 +70,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
   const user = session?.user;
   const [comments, setComments] = useState([]);
 
-  // ১. নির্দিষ্ট _id দিয়ে কমেন্ট ফেচ করার জন্য useEffect
+  
   useEffect(() => {
     if (!_id) return;
 
@@ -124,7 +124,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
         toast.success("Comment Added Successfully");
         form.reset();
         
-        // কমেন্ট সফলভাবে পোস্ট হওয়ার পর লিস্টের সাথে নতুন কমেন্টটি লোকালি যুক্ত করা বা রিফেচ করা
+        
         setComments((prev) => [commentData, ...prev]);
       } else {
         toast.error("Something went wrong!");
@@ -333,9 +333,9 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
                   No comments yet. Be the first to share your thoughts!
                 </p>
               ) : (
-                comments.map((c) => (
+                comments.map((c , index) => (
                   <div
-                    key={c._id}
+                    key={c._id || index}
                     className="p-4 rounded-xl border border-[var(--border)] bg-[var(--background)] space-y-2"
                   >
                     <div className="flex items-center justify-between">
@@ -357,10 +357,21 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
                           </p>
                         </div>
                       </div>
+                      {user && user.id === c.userId && (
+                        <div className="flex items-center gap-3">
+                          <button className="text-[11px] font-semibold text-cyan-500 hover:text-cyan-400 hover:underline transition-all cursor-pointer">
+                            Edit
+                          </button>
+                          <button className="text-[11px] font-semibold text-red-500 hover:text-red-400 hover:underline transition-all cursor-pointer">
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <p className="text-xs sm:text-sm text-[var(--foreground)] pl-11">
                       {c.comment}
                     </p>
+                    
                   </div>
                 ))
               )}

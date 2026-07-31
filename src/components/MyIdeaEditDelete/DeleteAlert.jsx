@@ -20,8 +20,6 @@ export function DeleteAlert({ data }) {
         })
         const data = await res.json();
        window.location.reload()
-     
-
   }
 
   return (
