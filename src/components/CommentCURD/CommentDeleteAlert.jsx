@@ -1,31 +1,37 @@
-"use client";
-
 import { AlertDialog, Button } from "@heroui/react";
-import { Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
-
-
-export function DeleteAlert({ data }) {
-  const cardData = data;
- 
-
-  const handelDelete = async () =>{
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${cardData._id}` ,
-        {
-            method: "DELETE",
-            headers:{
-                "content-type" : "application/json",
-
-            }
-        })
-        const data = await res.json();
-       window.location.reload()
+const CommentDeleteAlert = ({ cid }) => {
+  const CDID = cid;
+  const handelDelete = async () => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/comment/${CDID}`,
+      {
+        method: "DELETE",
+        headers: {
+          "content-type": "application/json",
+        },
+      },
+    );
+    const data = await res.json();
+    if (res.ok) {
+    toast.success("Comment deleted successfully!");
+    
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  } else {
+    toast.error("Failed to delete comment!");
   }
+  };
 
   return (
     <AlertDialog>
-      <Button  variant="danger">
-        <Trash2 className="w-4 h-4" />{" "}
+      <Button
+        className="p-0 text-[11px] font-semibold text-red-500 hover:text-red-400 hover:underline transition-all cursor-pointer"
+        variant="flat"
+      >
+        Delete
       </Button>
       <AlertDialog.Backdrop>
         <AlertDialog.Container>
@@ -56,4 +62,6 @@ export function DeleteAlert({ data }) {
       </AlertDialog.Backdrop>
     </AlertDialog>
   );
-}
+};
+
+export default CommentDeleteAlert;

@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import toast from "react-hot-toast";
+import EditDeleteBTN from "./CommentCURD/EditDeleteBTN";
 
 const IdeaDetailPage = ({ IdeaDetailsData }) => {
   const {
@@ -358,14 +359,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
                         </div>
                       </div>
                       {user && user.id === c.userId && (
-                        <div className="flex items-center gap-3">
-                          <button className="text-[11px] font-semibold text-cyan-500 hover:text-cyan-400 hover:underline transition-all cursor-pointer">
-                            Edit
-                          </button>
-                          <button className="text-[11px] font-semibold text-red-500 hover:text-red-400 hover:underline transition-all cursor-pointer">
-                            Delete
-                          </button>
-                        </div>
+                        <EditDeleteBTN commentId={c._id} />
                       )}
                     </div>
                     <p className="text-xs sm:text-sm text-[var(--foreground)] pl-11">
