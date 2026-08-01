@@ -124,8 +124,9 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
       if (res.ok) {
         toast.success("Comment Added Successfully");
         form.reset();
-        
-        
+        setTimeout(() => {
+      window.location.reload();
+    },500);
         setComments((prev) => [commentData, ...prev]);
       } else {
         toast.error("Something went wrong!");

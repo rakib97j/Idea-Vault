@@ -19,7 +19,7 @@ const CommentDeleteAlert = ({ cid }) => {
     
     setTimeout(() => {
       window.location.reload();
-    }, 1000);
+    }, 500);
   } else {
     toast.error("Failed to delete comment!");
   }
