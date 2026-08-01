@@ -6,7 +6,7 @@ import Link from "next/link";
 import MyIdeaEditDeleteBTN from "./MyIdeaEditDeleteBTN";
 
 const MyIdeaCard = ({ idea }) => {
-  const {  _id, tags, category, title, budget,  imageURL, imageUrl } = idea;
+  const {  _id, tags, category, title, budget, estimatedBudget,  imageURL, imageUrl } = idea;
 
 
   return (
@@ -44,7 +44,7 @@ const MyIdeaCard = ({ idea }) => {
 
           <div className="flex items-center gap-1 text-yellow-500">
             <span className="text-sm font-medium text-foreground">
-              {budget}
+              {budget || estimatedBudget}
             </span>
           </div>
         </div>

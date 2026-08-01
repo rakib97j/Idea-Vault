@@ -2,6 +2,7 @@
 
 import { AlertDialog, Button } from "@heroui/react";
 import { Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 
 
@@ -19,6 +20,7 @@ export function DeleteAlert({ data }) {
             }
         })
         const data = await res.json();
+         toast.error("Idea Deletesuccessfully!");
        window.location.reload()
   }
 

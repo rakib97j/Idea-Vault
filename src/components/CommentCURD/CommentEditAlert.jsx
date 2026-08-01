@@ -1,5 +1,5 @@
 "use client";
-import { Envelope } from "@gravity-ui/icons";
+
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
