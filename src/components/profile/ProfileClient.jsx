@@ -81,7 +81,7 @@ function ProfileContent({ user, router }) {
       if (!isMounted) return;
       setLoadingIdeas(true);
       try {
-        const res = await fetch("http://localhost:9090/ideas");
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas`);
         if (res.ok && isMounted) {
           const data = await res.json();
           const submittedIdeaTitles = JSON.parse(localStorage.getItem("submitted_idea_titles") || "[]");

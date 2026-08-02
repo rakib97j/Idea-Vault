@@ -55,8 +55,8 @@ const IdeaSearchShort = ({ initialIdeas = [] }) => {
     setError(null);
     try {
       const url = searchVal 
-        ? `http://localhost:9090/idea?search=${encodeURIComponent(searchVal)}`
-        : `http://localhost:9090/idea`;
+        ? `${process.env.NEXT_PUBLIC_API_URL}/idea?search=${encodeURIComponent(searchVal)}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/idea`;
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error("Failed to fetch ideas");

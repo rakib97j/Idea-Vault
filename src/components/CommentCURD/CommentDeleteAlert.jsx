@@ -1,15 +1,19 @@
 import { AlertDialog, Button } from "@heroui/react";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 
 const CommentDeleteAlert = ({ cid }) => {
   const CDID = cid;
+
   const handelDelete = async () => {
+     const {data:tokenData} =  await authClient.token()
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/comment/${CDID}`,
       {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
+          authorization : `Bearer ${tokenData?.token}`
         },
       },
     );

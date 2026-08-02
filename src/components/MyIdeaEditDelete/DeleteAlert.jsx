@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import { AlertDialog, Button } from "@heroui/react";
 import { Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
@@ -8,14 +9,22 @@ import toast from "react-hot-toast";
 
 export function DeleteAlert({ data }) {
   const cardData = data;
+
+  
  
 
   const handelDelete = async () =>{
+
+    const {data:tokenData} =  await authClient.token()
+
+
+
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${cardData._id}` ,
         {
             method: "DELETE",
             headers:{
                 "content-type" : "application/json",
+                authorization : `Bearer ${tokenData?.token}`
 
             }
         })

@@ -1,4 +1,4 @@
-import { section } from "framer-motion/client";
+
 import React from "react";
 
 export default function PartnersLogo() {

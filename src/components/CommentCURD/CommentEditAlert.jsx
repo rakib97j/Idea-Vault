@@ -3,6 +3,7 @@
 import { Button, Input, Label, Modal, Surface, TextField } from "@heroui/react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { authClient } from "@/lib/auth-client";
 const CommentEditAlert = ({ cid, currentText = "" }) => {
   const CEID = cid;
   const [commentText, setCommentText] = useState(currentText);
@@ -11,12 +12,14 @@ const CommentEditAlert = ({ cid, currentText = "" }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
+       const {data:tokenData} =  await authClient.token()
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/comment/${CEID}`,
         {
           method: "PATCH",
           headers: {
             "content-type": "application/json",
+            authorization : `Bearer ${tokenData?.token}`
           },
           body: JSON.stringify({ comment: commentText }),
         }

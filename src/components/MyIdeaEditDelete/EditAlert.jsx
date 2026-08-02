@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 
 import { Button,  Modal,  } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
 
 const categories = [
   { key: "tech", label: "Tech" },
@@ -61,10 +62,12 @@ const EditAlert = ({data}) => {
        setIsSubmitting(true);
 
        try {
+         const {data:tokenData} =  await authClient.token()
          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas/${cardData._id}`, {
            method: "PATCH",
            headers: {
              "content-type": "application/json",
+             authorization : `Bearer ${tokenData?.token}`
            },
            body: JSON.stringify({
              title: formData.title,

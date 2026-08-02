@@ -36,7 +36,7 @@ const AddIdeasForm = () => {
   const router = useRouter();
    const { data: session } = authClient.useSession();
   const user = session?.user;
-  console.log(user);
+  
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -67,11 +67,17 @@ const AddIdeasForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+   
+
+
+
     try {
-      const res = await fetch("http://localhost:9090/ideas", {
+       const {data:tokenData} =  await authClient.token()
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization : `Bearer ${tokenData?.token}`
         },
         body: JSON.stringify({
           ...formData,

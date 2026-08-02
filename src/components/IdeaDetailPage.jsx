@@ -111,10 +111,12 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
     };
 
     try {
+       const {data:tokenData} =  await authClient.token()
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comment`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization : `Bearer ${tokenData?.token}`
         },
         body: JSON.stringify(commentData),
       });
