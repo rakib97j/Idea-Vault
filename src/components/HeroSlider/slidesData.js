@@ -60,7 +60,7 @@ export const slidesData = [
     primaryBtn: "My Ideas",
     secondaryBtn: "Get Started",
     primaryHref: "/my-ideas",
-    secondaryHref: "/sign-up",
+    secondaryHref: "/ideas",
     image: "/hero-funding.png",
     glowColor: "rgba(139, 92, 246, 0.15)",
     glowColorLight: "rgba(139, 92, 246, 0.08)",
