@@ -5,6 +5,8 @@ import TrendingIdeas from "@/components/Home/TrendingIdeas";
 import PartnersLogo from "@/components/Home/PartnersLogo";
 import ContactUs from "@/components/Home/ContactUs";
 
+export const dynamic = "force-dynamic";
+
 export default function Home() {
   return (
     <div className="w-full bg-[var(--background)] ">

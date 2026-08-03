@@ -2,6 +2,8 @@ import { getIdeaData } from "@/DataActions/idea";
 import React from "react";
 import IdeaSearchShort from "@/components/IdeaSearchShort";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
   title: "Idea-Vault || Ideas",
   description: "Share and explore innovative ideas",
@@ -16,7 +18,7 @@ const IdeasPage = async () => {
         <h1 className="text-5xl flex justify-center font-black underline underline-offset-8 decoration-2">
           <span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-indigo-400 bg-clip-text text-transparent">
             Explore Ideas
-          </span> 
+          </span>
         </h1>
         <div className="mt-6 md:mt-0">
           <React.Suspense

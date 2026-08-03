@@ -1,10 +1,10 @@
 "use server";
 
 
-
 export const getIdeaData = async () => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/ideas`,
+    { cache: "no-store" }
   );
 
   const data = await res.json();
@@ -14,7 +14,10 @@ export const getIdeaData = async () => {
 
 // my idea 
 export const getMyIdea = async (userId) =>{
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ideas?userId=${userId}`)
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/ideas?userId=${userId}`,
+    { cache: "no-store" }
+  )
   const data = await res.json()
   return data;
 }
@@ -23,7 +26,10 @@ export const getMyIdea = async (userId) =>{
 // comment 
 
 export const getComment = async () => {
-  const res =await fetch(`${process.env.NEXT_PUBLIC_API_URL}/comment`)
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/comment`,
+    { cache: "no-store" }
+  )
   const data = await res.json()
 
   return data

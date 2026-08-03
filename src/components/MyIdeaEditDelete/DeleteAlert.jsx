@@ -30,7 +30,9 @@ export function DeleteAlert({ data }) {
         })
         const data = await res.json();
          toast.error("Idea Deletesuccessfully!");
-       window.location.reload()
+       setTimeout(() => {
+             window.location.reload();
+           }, 500);
   }
 
   return (

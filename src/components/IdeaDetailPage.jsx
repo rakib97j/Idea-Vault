@@ -74,6 +74,7 @@ const IdeaDetailPage = ({ IdeaDetailsData }) => {
   
   useEffect(() => {
     if (!_id) return;
+    
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/comment/${_id}`)
       .then((res) => {

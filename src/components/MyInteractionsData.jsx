@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+
 const MyInteractionsData = () => {
   const { data: session } = authClient.useSession();
   const user = session?.user;
@@ -16,8 +17,15 @@ const MyInteractionsData = () => {
 
     const fetchData = async () => {
       try {
+         const {data:tokenData} =  await authClient.token()
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/my-comment/${UserId}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/my-comment/${UserId}`,{
+            headers:{
+               authorization : `Bearer ${tokenData?.token}`
+            }
+          }
+
+          
         );
         const data = await res.json();
         setComments(Array.isArray(data) ? data : []);

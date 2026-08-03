@@ -44,21 +44,19 @@ const CommentDeleteAlert = ({ cid }) => {
             <AlertDialog.Header>
               <AlertDialog.Icon status="danger" />
               <AlertDialog.Heading>
-                Delete Idea permanently?
+                Delete Comment ?
               </AlertDialog.Heading>
             </AlertDialog.Header>
             <AlertDialog.Body>
               <p>
-                This will permanently delete <strong>My Awesome Idea</strong>{" "}
-                and all of its data. This action cannot be undone.
+                This will permanently delete <strong>your comment</strong>{" "}
+                
               </p>
             </AlertDialog.Body>
             <AlertDialog.Footer>
-              <Button slot="close" variant="tertiary">
-                Cancel
-              </Button>
+             
               <Button onClick={handelDelete} slot="close" variant="danger">
-                Delete Idea
+                Delete
               </Button>
             </AlertDialog.Footer>
           </AlertDialog.Dialog>
